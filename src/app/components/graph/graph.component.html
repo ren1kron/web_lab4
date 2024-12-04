@@ -1,0 +1,19 @@
+<div class="graph-container">
+  <svg xmlns="http://www.w3.org/2000/svg" #svgElement (click)="onGraphClick($event)"
+       [attr.width]="svgWidth" [attr.height]="svgHeight">
+    <!-- Здесь будет ваша область и оси -->
+    <!-- Пример области (может быть треугольник, круг, квадрат в зависимости от варианта) -->
+    <path [attr.d]="areaPath" fill="#122028" fill-opacity="0.6"></path>
+
+    <!-- Оси координат -->
+    <!-- Добавьте оси и метки аналогично вашему предыдущему SVG -->
+
+    <!-- Точки -->
+    <circle *ngFor="let point of points"
+            [attr.cx]="point.svgX"
+            [attr.cy]="point.svgY"
+            r="5"
+            [attr.fill]="point.color">
+    </circle>
+  </svg>
+</div>

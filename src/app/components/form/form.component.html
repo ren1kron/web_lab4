@@ -1,0 +1,41 @@
+<form (submit)="onSubmit()" #dataForm="ngForm">
+  <!-- Координата X -->
+  <div class="mb-4">
+    <label class="block text-gray-700 font-bold mb-2">Координата X:</label>
+    <div class="flex flex-wrap">
+      <label *ngFor="let xValue of xValues" class="mr-4 mb-2">
+        <input type="checkbox" [value]="xValue" [(ngModel)]="selectedXValues" name="xValues"
+               (change)="onXChange(xValue, $event)" class="mr-1">
+        {{ xValue }}
+      </label>
+    </div>
+    <p *ngIf="errorX" class="text-red-500 text-xs italic">{{ errorX }}</p>
+  </div>
+
+  <!-- Координата Y -->
+  <div class="mb-4">
+    <label for="y" class="block text-gray-700 font-bold mb-2">Координата Y (-3 до 3):</label>
+    <input type="text" id="y" name="y" required [(ngModel)]="y"
+           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+           placeholder="Введите Y">
+    <p *ngIf="errorY" class="text-red-500 text-xs italic">{{ errorY }}</p>
+  </div>
+
+  <!-- Радиус R -->
+  <div class="mb-4">
+    <label class="block text-gray-700 font-bold mb-2">Радиус R:</label>
+    <div class="flex flex-wrap">
+      <label *ngFor="let rValue of rValues" class="mr-4 mb-2">
+        <input type="checkbox" [value]="rValue" [(ngModel)]="selectedRValues" name="rValues"
+               (change)="onRChange(rValue, $event)" class="mr-1">
+        {{ rValue }}
+      </label>
+    </div>
+    <p *ngIf="errorR" class="text-red-500 text-xs italic">{{ errorR }}</p>
+  </div>
+
+  <!-- Кнопка отправки -->
+  <button type="submit" class="bg-gray-800 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded">
+    Проверить
+  </button>
+</form>

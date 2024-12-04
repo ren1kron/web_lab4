@@ -1,1 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+// Tailwind imports
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+// global styles
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  padding: 0;
+  background-color: whitesmoke;
+  background-size: cover;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+input, select, button {
+  padding: 4px 6px;
+}
