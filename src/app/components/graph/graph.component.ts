@@ -1,7 +1,6 @@
 import { Component, Input, ViewChild, ElementRef, OnInit } from '@angular/core';
 import {NgFor} from '@angular/common';
 
-
 @Component({
   selector: 'app-graph',
   standalone: true,
@@ -9,6 +8,7 @@ import {NgFor} from '@angular/common';
   styleUrls: ['./graph.component.scss'],
   imports: [NgFor]
 })
+
 export class GraphComponent implements OnInit {
   @ViewChild('svgElement', { static: true }) svgElement!: ElementRef<SVGElement>;
 
@@ -16,9 +16,19 @@ export class GraphComponent implements OnInit {
 
   svgWidth: number = 500;
   svgHeight: number = 500;
+  svgCenterX: number = this.svgWidth / 2;
+  svgCenterY: number = this.svgHeight / 2;
   points: any[] = []; // Массив точек для отображения
 
-  areaPath: string = ''; // Путь для области (зависит от вашего варианта)
+
+  circlePath: string = '';
+
+  rectX: string = '';
+  rectY: string = '';
+  rectWidth: string = '';
+  rectHeight: string = '';
+
+  trianglePoints: string = '';
 
   ngOnInit() {
     this.drawArea();
@@ -30,13 +40,25 @@ export class GraphComponent implements OnInit {
   }
 
   drawArea() {
-    // Обновите путь для области в зависимости от радиуса
-    // Пример для четверти круга
+    // высчитываем радиус
     const r = this.radius * (this.svgWidth / (this.radius * 2));
-    this.areaPath = `M ${this.svgWidth / 2} ${this.svgHeight / 2}
+    // обновляем круг
+    this.circlePath = `M ${this.svgWidth / 2} ${this.svgHeight / 2}
                      L ${this.svgWidth / 2} ${this.svgHeight / 2 - r}
                      A ${r} ${r} 0 0 1 ${this.svgWidth / 2 + r} ${this.svgHeight / 2}
                      Z`;
+    // обновляем квадрат
+    this.rectX = `${this.svgCenterX}`;
+    this.rectY = `${this.svgCenterY}`;
+    this.rectWidth  = `${r}`;
+    this.rectHeight = `${r/2}`;
+    // обновляем треугольник
+    this.trianglePoints = `
+        ${this.svgCenterX},${this.svgCenterY}
+        ${this.svgCenterX},${this.svgCenterY + r}
+        ${this.svgCenterX - r},${this.svgCenterY}
+      `
+
   }
 
   updatePoints() {

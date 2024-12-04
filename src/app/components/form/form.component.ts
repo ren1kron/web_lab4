@@ -10,30 +10,35 @@ import {NgFor, NgIf} from '@angular/common';
   imports: [NgFor, NgIf, FormsModule]
 })
 export class FormComponent {
+  // TODO нужно:
+  //  - починить checkbox'ы
+  //  - добавить связь между формой и графиком
+  //  -
+  //  -
   xValues: number[] = [-5, -4, -3, -2, -1, 0, 1, 2, 3];
   rValues: number[] = [-5, -4, -3, -2, -1, 0, 1, 2, 3];
 
-  selectedXValues: number[] = [];
-  selectedRValues: number[] = [];
+  selectedXValue: number | null = null;
+  selectedRValue: number | null = null;
   y: string = '';
 
   errorX: string = '';
   errorY: string = '';
   errorR: string = '';
 
-  onXChange(value: number, event: any) {
-    if (event.target.checked) {
-      this.selectedXValues.push(value);
+  onXChange(value: number) {
+    if (this.selectedXValue === value) {
+      this.selectedXValue = null; // Снять выбор, если нажали на уже выбранный чекбокс
     } else {
-      this.selectedXValues = this.selectedXValues.filter(val => val !== value);
+      this.selectedXValue = value;
     }
   }
 
-  onRChange(value: number, event: any) {
-    if (event.target.checked) {
-      this.selectedRValues.push(value);
+  onRChange(value: number) {
+    if (this.selectedRValue === value) {
+      this.selectedRValue = null; // Снять выбор, если нажали на уже выбранный чекбокс
     } else {
-      this.selectedRValues = this.selectedRValues.filter(val => val !== value);
+      this.selectedRValue = value;
     }
     // Триггер перерисовки графика при изменении R
     this.radiusChanged();
@@ -48,11 +53,12 @@ export class FormComponent {
     if (this.validateInputs()) {
       // Логика отправки данных на сервер и обновления графика и таблицы результатов
       const data = {
-        x: this.selectedXValues,
+        x: this.selectedXValue,
         y: parseFloat(this.y),
-        r: this.selectedRValues
+        r: this.selectedRValue
       };
       // Отправьте данные в сервис или напрямую в компонент графика
+      console.log('Отправка данных: ', data)
     }
   }
 
@@ -60,8 +66,8 @@ export class FormComponent {
     let isValid = true;
 
     // Проверка X
-    if (this.selectedXValues.length === 0) {
-      this.errorX = 'Необходимо выбрать хотя бы одно значение X.';
+    if (this.selectedXValue === 0) {
+      this.errorX = 'Необходимо выбрать значение X.';
       isValid = false;
     } else {
       this.errorX = '';
@@ -77,8 +83,8 @@ export class FormComponent {
     }
 
     // Проверка R
-    if (this.selectedRValues.length === 0) {
-      this.errorR = 'Необходимо выбрать хотя бы одно значение R.';
+    if (this.selectedRValue === 0) {
+      this.errorR = 'Необходимо выбрать значение R.';
       isValid = false;
     } else {
       this.errorR = '';
