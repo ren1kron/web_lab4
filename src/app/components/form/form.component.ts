@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {NgFor, NgIf} from '@angular/common';
+import { FormGraphService } from '../../servives/form-graph.service';
 
 @Component({
   selector: 'app-form',
@@ -16,7 +17,8 @@ export class FormComponent {
   //  -
   //  -
   xValues: number[] = [-5, -4, -3, -2, -1, 0, 1, 2, 3];
-  rValues: number[] = [-5, -4, -3, -2, -1, 0, 1, 2, 3];
+  // rValues: number[] = [-5, -4, -3, -2, -1, 0, 1, 2, 3];
+  rValues: number[] = [1, 2, 3, 4, 5];
 
   selectedXValue: number | null = null;
   selectedRValue: number | null = null;
@@ -25,6 +27,8 @@ export class FormComponent {
   errorX: string = '';
   errorY: string = '';
   errorR: string = '';
+
+  constructor(private formGraphService: FormGraphService) {}
 
   onXChange(value: number) {
     if (this.selectedXValue === value) {
@@ -37,28 +41,33 @@ export class FormComponent {
   onRChange(value: number) {
     if (this.selectedRValue === value) {
       this.selectedRValue = null; // Снять выбор, если нажали на уже выбранный чекбокс
+      this.formGraphService.setRadius(0);
     } else {
       this.selectedRValue = value;
+      this.formGraphService.setRadius(value);
     }
     // Триггер перерисовки графика при изменении R
-    this.radiusChanged();
+    // this.radiusChanged();
   }
 
-  radiusChanged() {
-    // Логика для обновления графика при изменении R
-    // Можно использовать сервис или Output EventEmitter для оповещения GraphComponent
-  }
+  // radiusChanged() {
+  //   // Логика для обновления графика при изменении R
+  //   // Можно использовать сервис или Output EventEmitter для оповещения GraphComponent
+  // }
 
   onSubmit() {
     if (this.validateInputs()) {
       // Логика отправки данных на сервер и обновления графика и таблицы результатов
       const data = {
-        x: this.selectedXValue,
+        x: this.selectedXValue!,
         y: parseFloat(this.y),
-        r: this.selectedRValue
+        r: this.selectedRValue!
       };
-      // Отправьте данные в сервис или напрямую в компонент графика
       console.log('Отправка данных: ', data)
+
+      this.formGraphService.addPoint(data);
+
+      // отправка на сервер...
     }
   }
 
