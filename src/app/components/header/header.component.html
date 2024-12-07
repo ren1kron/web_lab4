@@ -6,4 +6,11 @@
       Группа: <span class="pink-header">P3208</span>,
       Вариант: <span class="pink-header">39485</span>
   </h2>
+  <!-- Logout Button: Visible only when logged in -->
+  <button
+    *ngIf="authService.isLoggedIn()"
+    (click)="logout()"
+    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+    Logout
+  </button>
 </header>

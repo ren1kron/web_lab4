@@ -5,24 +5,52 @@
     <!-- Пример области (может быть треугольник, круг, квадрат в зависимости от варианта) -->
     <!-- Круг   -->
     <path [attr.d]="circlePath"
-          fill="#122028" fill-opacity="0.6"></path>
+          fill="#e31043" fill-opacity="0.8"
+          class="svg-area"
+    />
     <!-- Квадрат    -->
     <rect [attr.x]="rectX"
           [attr.y]="rectY"
           [attr.width]="rectWidth"
           [attr.height]="rectHeight"
-          fill="#122028" fill-opacity="0.6">
-    </rect>
+          fill="#e31043" fill-opacity="0.8"
+          class="svg-area"
+    />
     <!-- Треугольник    -->
     <polygon [attr.points]= "trianglePoints"
-             fill="#122028" fill-opacity="0.6">
-    </polygon>
+             fill="#e31043" fill-opacity="0.8"
+             class="svg-area"
+    />
 
 
 
     <!-- Оси координат -->
     <!-- Ось X -->
     <line [attr.x1]="0" [attr.y1]="svgCenterY" [attr.x2]="svgWidth" [attr.y2]="svgCenterY" stroke="#122028"></line>
+
+<!--    &lt;!&ndash; правая    &ndash;&gt;-->
+<!--    &lt;!&ndash; Засечка &ndash;&gt;-->
+<!--    <line [attr.x1]="svgCenterX - radius * scale" [attr.y1]="svgCenterY - 5" [attr.x2]="svgCenterX - radius * scale" [attr.y2]="svgCenterY + 5" stroke="#122028"></line>-->
+<!--    &lt;!&ndash; Метка &ndash;&gt;-->
+<!--    <text [attr.x]="svgCenterX - radius * scale - 5" [attr.y]="svgCenterY + 20" font-size="12">{{ -radius }}</text>-->
+<!--    &lt;!&ndash; левая   &ndash;&gt;-->
+<!--    &lt;!&ndash; Засечка &ndash;&gt;-->
+<!--    <line [attr.x1]="svgCenterX + radius * scale" [attr.y1]="svgCenterY - 5" [attr.x2]="svgCenterX + radius * scale" [attr.y2]="svgCenterY + 5" stroke="#122028"></line>-->
+<!--    &lt;!&ndash; Метка &ndash;&gt;-->
+<!--    <text [attr.x]="svgCenterX + radius * scale - 5" [attr.y]="svgCenterY + 20" font-size="12">{{ -radius }}</text>-->
+
+<!--    &lt;!&ndash; Ось Y &ndash;&gt;-->
+<!--    <line [attr.x1]="svgCenterX" [attr.y1]="0" [attr.x2]="svgCenterX" [attr.y2]="svgHeight" stroke="#122028"></line>-->
+<!--    &lt;!&ndash; верхняя   &ndash;&gt;-->
+<!--    &lt;!&ndash; Засечка &ndash;&gt;-->
+<!--    <line [attr.x1]="svgCenterX - 5" [attr.y1]="svgCenterX - radius * scale" [attr.x2]="svgCenterX + 5" [attr.y2]="svgCenterX - radius * scale" stroke="#122028"></line>-->
+<!--    &lt;!&ndash; Метка &ndash;&gt;-->
+<!--    <text [attr.x]="svgCenterX + 10" [attr.y]="svgCenterX - radius * scale + 5" font-size="12">{{ radius }}</text>-->
+<!--    &lt;!&ndash; нижняя    &ndash;&gt;-->
+<!--    &lt;!&ndash; Засечка &ndash;&gt;-->
+<!--    <line [attr.x1]="svgCenterX - 5" [attr.y1]="svgCenterX + radius * scale" [attr.x2]="svgCenterX + 5" [attr.y2]="svgCenterX + radius * scale" stroke="#122028"></line>-->
+<!--    &lt;!&ndash; Метка &ndash;&gt;-->
+<!--    <text [attr.x]="svgCenterX + 10" [attr.y]="svgCenterX + radius * scale + 5" font-size="12" >{{ radius }}</text>-->
 
     <!-- Засечки и метки по оси X -->
     <g *ngFor="let tick of xTicks">

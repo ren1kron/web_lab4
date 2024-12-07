@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FormGraphService } from './form-graph.service';
+import { ThemeService } from './theme.service';
 
-describe('FormGraphService', () => {
-  let service: FormGraphService;
+describe('ThemeService', () => {
+  let service: ThemeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(FormGraphService);
+    service = TestBed.inject(ThemeService);
   });
 
   it('should be created', () => {

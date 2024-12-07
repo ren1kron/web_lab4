@@ -1,0 +1,88 @@
+<!--<div class="login-container">-->
+<!--  <h1>Авторизация</h1>-->
+<!--  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">-->
+<!--    <label>-->
+<!--      Логин:-->
+<!--      <input type="text" name="username" [(ngModel)]="username" required>-->
+<!--    </label>-->
+<!--    <label>-->
+<!--      Пароль:-->
+<!--      <input type="password" name="password" [(ngModel)]="password" required>-->
+<!--    </label>-->
+<!--    <div *ngIf="errorMessage" class="error">{{errorMessage}}</div>-->
+<!--    <button type="submit">Войти</button>-->
+<!--  </form>-->
+<!--</div>-->
+
+
+<!--<div class="login-container">-->
+<!--  <h1>Авторизация</h1>-->
+<!--  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">-->
+<!--    <label>-->
+<!--      Логин:-->
+<!--      <input type="text" name="username" [(ngModel)]="username" required>-->
+<!--    </label>-->
+<!--    <label>-->
+<!--      Пароль:-->
+<!--      <input type="password" name="password" [(ngModel)]="password" required>-->
+<!--    </label>-->
+<!--    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>-->
+<!--    <button type="submit" [disabled]="isLoading">-->
+<!--      {{ isLoading ? 'Вход...' : 'Войти' }}-->
+<!--    </button>-->
+<!--  </form>-->
+<!--</div>-->
+
+
+<div class="login-container">
+  <h1>Вход в систему</h1>
+
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
+    <!-- Поле логина -->
+    <div class="form-group">
+      <label for="username">Логин:</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        [(ngModel)]="username"
+        #usernameInput="ngModel"
+        required
+        class="form-control"
+        aria-required="true"
+        [class.is-invalid]="usernameInput.invalid && usernameInput.touched"
+      />
+      <div *ngIf="usernameInput.invalid && usernameInput.touched" class="error">
+        Поле логина обязательно.
+      </div>
+    </div>
+
+    <!-- Поле пароля -->
+    <div class="form-group">
+      <label for="password">Пароль:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        [(ngModel)]="password"
+        #passwordInput="ngModel"
+        required
+        minlength="6"
+        class="form-control"
+        aria-required="true"
+        [class.is-invalid]="passwordInput.invalid && passwordInput.touched"
+      />
+      <div *ngIf="passwordInput.invalid && passwordInput.touched" class="error">
+        Пароль должен содержать минимум 6 символов.
+      </div>
+    </div>
+
+    <!-- Общие ошибки -->
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+    <!-- Кнопка отправки -->
+    <button type="submit" class="btn btn-primary" [disabled]="isLoading || loginForm.invalid">
+      {{ isLoading ? 'Вход...' : 'Войти' }}
+    </button>
+  </form>
+</div>

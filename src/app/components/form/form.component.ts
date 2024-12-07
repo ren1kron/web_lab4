@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, NgForm} from '@angular/forms';
 import {NgFor, NgIf} from '@angular/common';
-import { FormGraphService } from '../../servives/form-graph.service';
+import { PointService, Point } from '../../services/point.service';
+import {DataService} from '../../services/data.service';
 
 @Component({
   selector: 'app-form',
@@ -28,7 +29,7 @@ export class FormComponent {
   errorY: string = '';
   errorR: string = '';
 
-  constructor(private formGraphService: FormGraphService) {}
+  constructor(private dataService: DataService, private pointService: PointService) {}
 
   onXChange(value: number) {
     if (this.selectedXValue === value) {
@@ -41,33 +42,36 @@ export class FormComponent {
   onRChange(value: number) {
     if (this.selectedRValue === value) {
       this.selectedRValue = null; // Снять выбор, если нажали на уже выбранный чекбокс
-      this.formGraphService.setRadius(0);
+      this.dataService.setRadius(0);
     } else {
       this.selectedRValue = value;
-      this.formGraphService.setRadius(value);
+      this.dataService.setRadius(value);
     }
-    // Триггер перерисовки графика при изменении R
-    // this.radiusChanged();
   }
-
-  // radiusChanged() {
-  //   // Логика для обновления графика при изменении R
-  //   // Можно использовать сервис или Output EventEmitter для оповещения GraphComponent
-  // }
 
   onSubmit() {
     if (this.validateInputs()) {
       // Логика отправки данных на сервер и обновления графика и таблицы результатов
-      const data = {
+      const point: Point = {
         x: this.selectedXValue!,
         y: parseFloat(this.y),
         r: this.selectedRValue!
       };
-      console.log('Отправка данных: ', data)
+      console.log('Отправка данных: ', point)
 
-      this.formGraphService.addPoint(data);
+      // this.dataService.addPoint(data);
 
-      // отправка на сервер...
+      this.pointService.addPoint(point).subscribe(
+        response => {
+          console.log('Точка успешно добавлена: ', response);
+
+          // передаём в DataService для обновления графика и таблицы
+          this.dataService.addPoint(response);
+        },
+        error => {
+          console.error('Ошибка при добавлении точки: ', error);
+        }
+      );
     }
   }
 
@@ -75,7 +79,7 @@ export class FormComponent {
     let isValid = true;
 
     // Проверка X
-    if (this.selectedXValue === 0) {
+    if (this.selectedXValue == null) {
       this.errorX = 'Необходимо выбрать значение X.';
       isValid = false;
     } else {
@@ -92,13 +96,45 @@ export class FormComponent {
     }
 
     // Проверка R
-    if (this.selectedRValue === 0) {
+    if (this.selectedRValue == null) {
       this.errorR = 'Необходимо выбрать значение R.';
+      isValid = false;
+    } else if (this.selectedRValue <= 0) {
+      this.errorR = 'R - значение радиуса, оно обязано быть больше 0'
       isValid = false;
     } else {
       this.errorR = '';
     }
 
     return isValid;
+  }
+  /**
+   * Метод для обработки очистки формы и удаления всех точек.
+   * @param form Ссылка на форму для её сброса.
+   */
+  onClear(form: NgForm): void {
+    // Подтверждение действия
+    if (!confirm('Вы уверены, что хотите очистить все точки?')) {
+      return;
+    }
+
+    // Вызов сервиса для очистки точек на сервере
+    this.pointService.clearPoints().subscribe(
+      response => {
+        console.log('Точки успешно очищены:', response);
+        // Обновление локального списка точек через DataService
+        this.pointService.clearPoints(); // Предполагается, что в DataService есть такой метод
+        // Сброс формы до исходных значений
+        form.resetForm({
+          selectedXValue: null,
+          y: null,
+          selectedRValue: null
+        });
+      },
+      error => {
+        console.error('Ошибка при очистке точек:', error);
+        // Здесь можно добавить отображение ошибки пользователю
+      }
+    );
   }
 }

@@ -44,8 +44,16 @@
     <p *ngIf="errorR" class="text-red-500 text-xs italic">{{ errorR }}</p>
   </div>
 
-  <!-- Кнопка отправки -->
-  <button type="submit" class="bg-gray-800 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded">
-    Проверить
-  </button>
+  <!-- Кнопки действия -->
+  <div class="flex space-x-4">
+    <!-- Кнопка отправки -->
+    <button type="submit" class="bg-gray-800 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded">
+      Проверить
+    </button>
+
+    <!-- Кнопка очистки -->
+    <button type="button" (click)="onClear(dataForm)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+      Очистить
+    </button>
+  </div>
 </form>
