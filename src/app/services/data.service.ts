@@ -1,49 +1,3 @@
-// import { Injectable } from '@angular/core';
-// import { BehaviorSubject } from 'rxjs';
-// import {PointService, Point} from './point.service';
-//
-// @Injectable({
-//   providedIn: 'root'
-// })
-//
-// export class DataService {
-//   private radiusSubject = new BehaviorSubject<number | null>(null);
-//   radius$ = this.radiusSubject.asObservable();
-//
-//   private pointSubject = new BehaviorSubject<Point | null>(null);
-//   point$ = this.pointSubject.asObservable();
-//
-//   private pointsSubject = new BehaviorSubject<Point[]>([]);
-//   points$ = this.pointsSubject.asObservable();
-//
-//   constructor(private pointService: PointService) {
-//     // Загрузка точек при инициализации
-//     this.pointService.getPoints().subscribe(
-//       points => {
-//         this.pointsSubject.next(points);
-//       },
-//       error => {
-//         console.error('Ошибка при загрузке точек:', error);
-//       }
-//     );
-//   }
-//
-//   setRadius(r: number) {
-//     this.radiusSubject.next(r);
-//   }
-//
-//   addPoint(point: Point) {
-//     // Добавляем точку в локальный список
-//     const currentPoints = this.pointsSubject.value;
-//     currentPoints.push(point);
-//     this.pointsSubject.next(currentPoints);
-//
-//     // Эмитируем отдельное событие для обновления графика
-//     this.pointSubject.next(point);
-//   }
-// }
-
-
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -57,7 +11,7 @@ export class DataService {
   radius$ = this.radiusSubject.asObservable();
 
   private pointSubject = new BehaviorSubject<Point | null>(null);
-  point$ = this.pointSubject.asObservable();
+  // point$ = this.pointSubject.asObservable();
 
   private pointsSubject = new BehaviorSubject<Point[]>([]); // Инициализация пустым массивом
   points$ = this.pointsSubject.asObservable();

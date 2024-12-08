@@ -17,6 +17,7 @@ describe('AppComponent', () => {
   it(`should have the 'lab4_frontend' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
+    // @ts-ignore
     expect(app.title).toEqual('lab4_frontend');
   });
 

@@ -1,0 +1,48 @@
+<div class="register-container">
+  <h1>Register</h1>
+
+  <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input type="text"
+             id="username"
+             name="username"
+             [(ngModel)]="username"
+             required
+             minlength="3"
+             class="form-control"
+             #usernameInput="ngModel" />
+      <div *ngIf="usernameInput.invalid && usernameInput.touched" class="error">
+        Username must be at least 3 characters long.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password"
+             id="password"
+             name="password"
+             [(ngModel)]="password"
+             required
+             minlength="6"
+             class="form-control"
+             #passwordInput="ngModel" />
+      <div *ngIf="passwordInput.invalid && passwordInput.touched" class="error">
+        Password must be at least 6 characters long.
+      </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="isLoading || registerForm.invalid">
+      {{ isLoading ? 'Registering...' : 'Register' }}
+    </button>
+  </form>
+  <!-- Navigation Link to Login -->
+  <p class="mt-4 text-center">
+    Already have an account?
+    <a routerLink="/login" class="text-blue-500 hover:underline">
+      Log in
+    </a>
+  </p>
+</div>
